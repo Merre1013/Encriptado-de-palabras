@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador</title>
+    <link rel="stylesheet" href="./style.css">
+    
+<body>
+
+        <div class="container">
+        <h1>Encriptador de palabras</h1>
+        <div class="input-group">
+            <label for="texto">Texto:</label>
+            <input type="text" id="texto" placeholder="Introduce el texto a cifrar">
+        </div>
+        <div class="input-group">
+            <label for="desplazamiento">Desplazamiento:</label>
+            <input type="number" id="desplazamiento" value="3" min="1" placeholder="Introduce el número de desplazamiento">
+        </div>
+        <button onclick="encriptarTexto()">Encriptar y Desencriptar</button>
+        <div class="result">
+            <h2>Resultado:</h2>
+            <p><strong>Texto Cifrado:</strong> <span id="textoCifrado"></span></p>
+            <p><strong>Texto Descifrado:</strong> <span id="textoDescifrado"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Función para cifrar un texto usando el cifrado César
+        function cifrarCesar(texto, desplazamiento) {
+            const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let textoCifrado = '';
+
+            for (let i = 0; i < texto.length; i++) {
+                const char = texto[i];
+                const index = alfabeto.indexOf(char);
+
+                if (index === -1) {
+                    // Si el carácter no está en el alfabeto, se mantiene sin cambios
+                    textoCifrado += char;
+                } else {
+                    // Calcula el nuevo índice desplazado
+                    const nuevoIndice = (index + desplazamiento) % alfabeto.length;
+                    textoCifrado += alfabeto[nuevoIndice];
+                }
+            }
+
+            return textoCifrado;
+        }
+
+        // Función para descifrar un texto cifrado usando el cifrado César
+        function descifrarCesar(textoCifrado, desplazamiento) {
+            return cifrarCesar(textoCifrado, -desplazamiento);
+        }
+
+        // Función que se llama al hacer clic en el botón
+        function encriptarTexto() {
+            const texto = document.getElementById('texto').value;
+            const desplazamiento = parseInt(document.getElementById('desplazamiento').value, 10);
+
+            const textoCifrado = cifrarCesar(texto, desplazamiento);
+            const textoDescifrado = descifrarCesar(textoCifrado, desplazamiento);
+
+            document.getElementById('textoCifrado').textContent = textoCifrado;
+            document.getElementById('textoDescifrado').textContent = textoDescifrado;
+        }
+    </script>
+</body>
+</html>
